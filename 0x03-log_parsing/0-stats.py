@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-Log parsing
+Solving Log parsing Dialemma
 """
 import sys
 
@@ -21,7 +21,7 @@ status_codes = {
 
 def print_status():
     """
-    Helper function to output status
+    Function to print status
     """
     print(f"File size: {total_size}")
 
@@ -43,11 +43,11 @@ try:
             code = line_parts[-2]
             total_size += int(line_parts[-1])
 
-            # Collate the number of lines per status code
+            # # of lines per status code
             if code in status_codes:
                 status_codes[code] += 1
 
-            # Increment the log count
+            # Incrementing log count
             line_count += 1
 except Exception:
     pass
