@@ -52,4 +52,4 @@ try:
 except Exception:
     pass
 finally:
-    print_status(
+    print_status()
