@@ -1,68 +1,66 @@
 #!/usr/bin/python3
 """
-Solution to the nqueens problem
+Program to solve the N queens problem.
 """
 import sys
 
 
-def backtrack(r, n, cols, pos, neg, board):
+def find_queen_positions(row, size, used_columns, positive_diagonals, negative_diagonals, chess_board):
     """
-    backtrack function to find solution
+    Recursively attempts to find all valid queen positions on the chessboard.
     """
-    if r == n:
-        res = []
-        for l in range(len(board)):
-            for k in range(len(board[l])):
-                if board[l][k] == 1:
-                    res.append([l, k])
-        print(res)
+    if row == size:
+        solution = []
+        for i in range(size):
+            for j in range(size):
+                if chess_board[i][j] == 1:
+                    solution.append([i, j])
+        print(solution)
         return
 
-    for c in range(n):
-        if c in cols or (r + c) in pos or (r - c) in neg:
+    for col in range(size):
+        if col in used_columns or (row + col) in positive_diagonals or (row - col) in negative_diagonals:
             continue
 
-        cols.add(c)
-        pos.add(r + c)
-        neg.add(r - c)
-        board[r][c] = 1
+        used_columns.add(col)
+        positive_diagonals.add(row + col)
+        negative_diagonals.add(row - col)
+        chess_board[row][col] = 1
 
-        backtrack(r+1, n, cols, pos, neg, board)
+        find_queen_positions(row + 1, size, used_columns, positive_diagonals, negative_diagonals, chess_board)
 
-        cols.remove(c)
-        pos.remove(r + c)
-        neg.remove(r - c)
-        board[r][c] = 0
+        # Backtrack: remove the queen and reset the state
+        used_columns.remove(col)
+        positive_diagonals.remove(row + col)
+        negative_diagonals.remove(row - col)
+        chess_board[row][col] = 0
 
 
-def nqueens(n):
+def nqueens_solver(n):
     """
-    Solution to nqueens problem
+    Finds and prints all solutions to the N queens problem.
     Args:
-        n (int): number of queens. Must be >= 4
-    Return:
-        List of lists representing coordinates of each
-        queen for all possible solutions
+        n (int): Number of queens and the size of the chessboard (NxN).
     """
-    cols = set()
-    pos_diag = set()
-    neg_diag = set()
-    board = [[0] * n for i in range(n)]
+    used_columns = set()
+    positive_diagonals = set()
+    negative_diagonals = set()
+    chess_board = [[0] * n for _ in range(n)]
 
-    backtrack(0, n, cols, pos_diag, neg_diag, board)
+    find_queen_positions(0, n, used_columns, positive_diagonals, negative_diagonals, chess_board)
 
 
 if __name__ == "__main__":
-    n = sys.argv
-    if len(n) != 2:
+    if len(sys.argv) != 2:
         print("Usage: nqueens N")
         sys.exit(1)
     try:
-        nn = int(n[1])
-        if nn < 4:
+        num_queens = int(sys.argv[1])
+        if num_queens < 4:
             print("N must be at least 4")
             sys.exit(1)
-        nqueens(nn)
+        nqueens_solver(num_queens)
     except ValueError:
         print("N must be a number")
         sys.exit(1)
+
