@@ -5,7 +5,7 @@ Program to solve the N queens problem.
 import sys
 
 
-def find_queen_positions(row, size, used_columns, positive_diagonals, negative_diagonals, chess_board):
+def find_queen_positions(row, size, used_columns, pos_diagonals, neg_diagonals, board):
     """
     Recursively attempts to find all valid queen positions on the chessboard.
     """
@@ -13,27 +13,29 @@ def find_queen_positions(row, size, used_columns, positive_diagonals, negative_d
         solution = []
         for i in range(size):
             for j in range(size):
-                if chess_board[i][j] == 1:
+                if board[i][j] == 1:
                     solution.append([i, j])
         print(solution)
         return
 
     for col in range(size):
-        if col in used_columns or (row + col) in positive_diagonals or (row - col) in negative_diagonals:
+        if (col in used_columns or
+                (row + col) in pos_diagonals or
+                (row - col) in neg_diagonals):
             continue
 
         used_columns.add(col)
-        positive_diagonals.add(row + col)
-        negative_diagonals.add(row - col)
-        chess_board[row][col] = 1
+        pos_diagonals.add(row + col)
+        neg_diagonals.add(row - col)
+        board[row][col] = 1
 
-        find_queen_positions(row + 1, size, used_columns, positive_diagonals, negative_diagonals, chess_board)
+        find_queen_positions(row + 1, size, used_columns, pos_diagonals, neg_diagonals, board)
 
         # Backtrack: remove the queen and reset the state
         used_columns.remove(col)
-        positive_diagonals.remove(row + col)
-        negative_diagonals.remove(row - col)
-        chess_board[row][col] = 0
+        pos_diagonals.remove(row + col)
+        neg_diagonals.remove(row - col)
+        board[row][col] = 0
 
 
 def nqueens_solver(n):
@@ -43,11 +45,11 @@ def nqueens_solver(n):
         n (int): Number of queens and the size of the chessboard (NxN).
     """
     used_columns = set()
-    positive_diagonals = set()
-    negative_diagonals = set()
-    chess_board = [[0] * n for _ in range(n)]
+    pos_diagonals = set()
+    neg_diagonals = set()
+    board = [[0] * n for _ in range(n)]
 
-    find_queen_positions(0, n, used_columns, positive_diagonals, negative_diagonals, chess_board)
+    find_queen_positions(0, n, used_columns, pos_diagonals, neg_diagonals, board)
 
 
 if __name__ == "__main__":
@@ -63,4 +65,3 @@ if __name__ == "__main__":
     except ValueError:
         print("N must be a number")
         sys.exit(1)
-
