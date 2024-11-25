@@ -1,32 +1,32 @@
 #!/usr/bin/python3
 """
-Change comes from within
+Solving making chage dialemma
 """
 
 
 def makeChange(coins, total):
-    """Determines the fewest number of 'coins' needed to meet 'total'
+    """Determine the fewest No. of 'coins' needed to meet 'total'
 
     Args:
-        coins [list]: A list of values of the coins in your possessions
-        total (int): Target amount
+        coins [list]: Possessed list of coin values 
+        total (int): Targeted amount
 
     Return:
         coins: The fewest number of coins to meet 'total
         0: If 'total' is 0 or less
         -1: If total cannot be met by any number of 'coins'
     """
-    counted = tally = 0
+    c_coins = x = 0
 
     if total < 1:
         return 0
 
     for coin in sorted(coins)[::-1]:
-        while counted + coin <= total:
-            counted += coin
-            tally += 1
+        while c_coins + coin <= total:
+            c_coins += coin
+            x += 1
 
-    if counted != total:
+    if c_coins != total:
         return -1
 
-    return tally
+    return x
