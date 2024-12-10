@@ -1,18 +1,18 @@
 #!/usr/bin/python3
-"""Solving prime game Dialemma"""
+"""Module defining isWinner function."""
 
 
 def isWinner(x, nums):
-    """Function to output prime game winner"""
-    maria_Count = 0
-    ben_Count = 0
+    """Function to get who has won in prime game"""
+    mariaWinsCount = 0
+    benWinsCount = 0
 
     for num in nums:
         roundsSet = list(range(1, num + 1))
         primesSet = primes_in_range(1, num)
 
         if not primesSet:
-            ben_Count += 1
+            benWinsCount += 1
             continue
 
         isMariaTurns = True
@@ -20,9 +20,9 @@ def isWinner(x, nums):
         while(True):
             if not primesSet:
                 if isMariaTurns:
-                    ben_Count += 1
+                    benWinsCount += 1
                 else:
-                    maria_Count += 1
+                    mariaWinsCount += 1
                 break
 
             smallestPrime = primesSet.pop(0)
@@ -32,17 +32,17 @@ def isWinner(x, nums):
 
             isMariaTurns = not isMariaTurns
 
-    if maria_Count > ben_Count:
+    if mariaWinsCount > benWinsCount:
         return "Winner: Maria"
 
-    if maria_Count < ben_Count:
+    if mariaWinsCount < benWinsCount:
         return "Winner: Ben"
 
     return None
 
 
 def is_prime(n):
-    """Output True if n is prime, False elsewere"""
+    """Returns True if n is prime, else False."""
     if n < 2:
         return False
     for i in range(2, int(n ** 0.5) + 1):
@@ -52,6 +52,6 @@ def is_prime(n):
 
 
 def primes_in_range(start, end):
-    """Output prime numbers list between start and end (inclusive)."""
+    """Returns a list of prime numbers between start and end (inclusive)."""
     primes = [n for n in range(start, end+1) if is_prime(n)]
     return primes
